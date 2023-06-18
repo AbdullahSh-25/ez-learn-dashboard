@@ -1,4 +1,5 @@
 import 'package:beamer/beamer.dart';
+import 'package:ez_learn_dashboard/app/notification/presentation/ui/screen/notification_screen.dart';
 
 import '../common/imports/imports.dart';
 
@@ -8,7 +9,7 @@ class InnerRouterConfig {
   InnerRouterConfig() {
     router = BeamerDelegate(
       transitionDelegate: const NoAnimationTransitionDelegate(),
-      initialPath: '/first',
+      initialPath: '/second',
       locationBuilder: RoutesLocationBuilder(
         routes: {
           '/first': (context, state, data) => BeamPage(
@@ -75,11 +76,7 @@ class InnerRouterConfig {
           '/second': (context, state, data) => BeamPage(
               title: 'Second',
               key: const ValueKey('second'),
-              child: Scaffold(
-                appBar: AppBar(
-                  title: const Text('Second Page'),
-                ),
-              )),
+              child: NotificationScreen()),
         },
       ),
     );

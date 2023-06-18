@@ -13,7 +13,7 @@ class AppStyle {
         backgroundColor: AppColors.primary,
         foregroundColor: AppColors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        padding: const EdgeInsets.symmetric(vertical: 16),
+        padding: const EdgeInsets.symmetric(vertical: 16,horizontal: 24),
         textStyle: const TextStyle(fontFamily: fontName)),
   );
 
