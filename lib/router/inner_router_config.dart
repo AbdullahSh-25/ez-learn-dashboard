@@ -1,12 +1,15 @@
 import 'package:beamer/beamer.dart';
 import 'package:ez_learn_dashboard/app/notification/presentation/ui/screen/notification_screen.dart';
+import 'package:ez_learn_dashboard/app/subject_detail/presentation/ui/screen/subject_detail_screen.dart';
 
+import '../app/subjects/presentation/ui/screen/subjects_screen.dart';
 import '../common/imports/imports.dart';
 
 class InnerRouterConfig {
   late final BeamerDelegate router;
+  final GlobalKey<BeamerState> _key;
 
-  InnerRouterConfig() {
+  InnerRouterConfig(this._key) {
     router = BeamerDelegate(
       transitionDelegate: const NoAnimationTransitionDelegate(),
       initialPath: '/second',
@@ -76,7 +79,11 @@ class InnerRouterConfig {
           '/second': (context, state, data) => BeamPage(
               title: 'Second',
               key: const ValueKey('second'),
-              child: NotificationScreen()),
+              child: SubjectsScreen(router: router,)),
+          '/second/subject_detail': (context, state, data) => BeamPage(
+              title: 'Subject Detail',
+              key: const ValueKey('subject_detail'),
+              child: SubjectDetailScreen(router: router,)),
         },
       ),
     );

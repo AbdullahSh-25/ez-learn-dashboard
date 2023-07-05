@@ -5,6 +5,9 @@ export 'package:ez_learn_dashboard/router/router_config.dart';
 export 'package:ez_learn_dashboard/common/helper/colored_print.dart';
 export 'package:ez_learn_dashboard/common/utils/extension.dart';
 export 'package:ez_learn_dashboard/common/config/theme/colors.dart';
+export 'package:ez_learn_dashboard/generated/assets.dart';
+export 'package:iconly/iconly.dart';
+
 
 export 'package:flutter_bloc/flutter_bloc.dart';
 export 'package:flutter_screenutil/flutter_screenutil.dart';

@@ -102,6 +102,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_animate:
+    dependency: "direct main"
+    description:
+      name: flutter_animate
+      sha256: be54662837a6e66cc53ee88549e808c625275e0faf5a43e11cf3182cb0bd1b02
+      url: "https://pub.dev"
+    source: hosted
+    version: "4.2.0"
   flutter_bloc:
     dependency: "direct main"
     description:
@@ -168,6 +176,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.1"
+  intl:
+    dependency: transitive
+    description:
+      name: intl
+      sha256: "3bc132a9dbce73a7e4a21a17d06e1878839ffbf975568bc875c60537824b0c4d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.18.1"
   js:
     dependency: transitive
     description:
@@ -248,6 +264,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.0.5"
+  reactive_forms:
+    dependency: "direct main"
+    description:
+      name: reactive_forms
+      sha256: "7f3c7b53d5a875f002658bf675313d0d11795ee58cf8591f26c906b7a86c2b0a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "15.0.0"
   sky_engine:
     dependency: transitive
     description: flutter

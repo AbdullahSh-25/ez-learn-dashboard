@@ -5,6 +5,10 @@ import 'package:ez_learn_dashboard/app/root/presentation/ui/widget/sidebar.dart'
 import '../../../../../common/imports/imports.dart';
 import '../../../../../router/inner_router_config.dart';
 
+class Navigator{
+
+}
+
 class MyHomePage extends StatefulWidget {
   final String title;
 
@@ -26,7 +30,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-    router = InnerRouterConfig();
+    router = InnerRouterConfig(_beamerKey);
     super.initState();
   }
 

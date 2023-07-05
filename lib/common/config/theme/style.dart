@@ -22,7 +22,7 @@ class AppStyle {
         backgroundColor: AppColors.white,
         foregroundColor: AppColors.primary,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        side: BorderSide(color: AppColors.primary),
+        side: const BorderSide(color: AppColors.primary),
         padding: const EdgeInsets.symmetric(vertical: 16),
         textStyle: const TextStyle(fontFamily: fontName)),
   );
@@ -51,7 +51,8 @@ class AppStyle {
     displayLarge: TextStyle(fontSize: 26.sp, fontWeight: FontWeight.w600, color: AppColors.primary, fontFamily: fontName),
     displayMedium: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.w600, color: AppColors.primary, fontFamily: fontName),
     displaySmall: TextStyle(fontSize: 22.sp, fontWeight: FontWeight.w600, color: AppColors.primary, fontFamily: fontName),
-    headlineSmall: TextStyle(fontSize: 22.sp, fontWeight: FontWeight.w600, color: AppColors.textColor, fontFamily: fontName),
+    headlineMedium: TextStyle(fontSize: 22.sp, fontWeight: FontWeight.w600, color: AppColors.textColor, fontFamily: fontName),
+    headlineSmall: TextStyle(fontSize: 20.sp, fontWeight: FontWeight.normal, color: AppColors.textColor, fontFamily: fontName),
     titleLarge: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.bold, color: AppColors.textColor, fontFamily: fontName),
     titleMedium: TextStyle(fontSize: 16.sp, fontWeight: FontWeight.normal, color: AppColors.textColor, fontFamily: fontName),
     bodyLarge: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold, color: AppColors.textColor, fontFamily: fontName),
