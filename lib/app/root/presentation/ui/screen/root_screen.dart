@@ -30,21 +30,20 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-    router = InnerRouterConfig(_beamerKey);
+    router = InnerRouterConfig();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    printK(context.screenWidth);
-    printK(context.screenHeight);
+
     return Scaffold(
       body: Stack(
         alignment: Alignment.center,
         children: [
           Row(
             children: [
-              Sidebar(beamerKey: _beamerKey),
+              Sidebar(beamerKey: _beamerKey,router: router.router),
               Expanded(
                 child: Padding(
                   padding: REdgeInsets.only(top: 150),
@@ -92,30 +91,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 ],
               ),
             ),
-          ),
-        ],
-      ),
-      floatingActionButton: Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          FloatingActionButton(
-            key: const ValueKey('value'),
-            heroTag: const ValueKey('value'),
-            onPressed: () {
-              _beamerKey.currentState!.routerDelegate.beamToNamed('/second');
-            },
-            child: const Icon(Icons.two_k),
-          ),
-          const SizedBox(
-            height: 16,
-          ),
-          FloatingActionButton(
-            key: const ValueKey('value2'),
-            heroTag: const ValueKey('value2'),
-            onPressed: () {
-              _beamerKey.currentState!.routerDelegate.beamToNamed('/first');
-            },
-            child: const Icon(Icons.one_k),
           ),
         ],
       ),

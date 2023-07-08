@@ -6,6 +6,9 @@ class SubjectsScreen extends StatelessWidget {
   final BeamerDelegate router;
   const SubjectsScreen({Key? key,required this.router}) : super(key: key);
 
+  static const String pagePath = 'subjects';
+
+
   @override
   Widget build(BuildContext context) {
     return Padding(

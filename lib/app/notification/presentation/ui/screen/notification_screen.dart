@@ -5,6 +5,8 @@ import '../widget/notification_item.dart';
 class NotificationScreen extends StatelessWidget {
   const NotificationScreen({Key? key}) : super(key: key);
 
+  static const String pagePath = 'notification';
+
   @override
   Widget build(BuildContext context) {
       return Padding(

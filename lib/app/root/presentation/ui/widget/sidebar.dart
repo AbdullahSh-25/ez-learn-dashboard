@@ -1,9 +1,33 @@
-import '../../../../../common/imports/imports.dart';
+import 'package:ez_learn_dashboard/app/app_users/presentation/ui/screen/app_users_screen.dart';
+import 'package:ez_learn_dashboard/app/dash_users/presentation/ui/screen/dash_users_screen.dart';
+import 'package:ez_learn_dashboard/app/notification/presentation/ui/screen/notification_screen.dart';
+import 'package:ez_learn_dashboard/app/root/presentation/ui/widget/sidebar_item.dart';
+import 'package:ez_learn_dashboard/app/subjects/presentation/ui/screen/subjects_screen.dart';
 
-class Sidebar extends StatelessWidget {
-  final beamerKey;
-  
-  const Sidebar({Key? key,required this.beamerKey}) : super(key: key);
+import '../../../../../common/imports/imports.dart';
+import '../../../../marks/presentation/ui/screen/marks_screen.dart';
+
+class Sidebar extends StatefulWidget {
+  final GlobalKey<BeamerState> beamerKey;
+  final BeamerDelegate router;
+
+  const Sidebar({Key? key, required this.beamerKey, required this.router}) : super(key: key);
+
+  @override
+  State<Sidebar> createState() => _SidebarState();
+}
+
+class _SidebarState extends State<Sidebar> {
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      widget.router.addListener(() {
+        setState(() {});
+      });
+    });
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,117 +52,81 @@ class Sidebar extends StatelessWidget {
           const SizedBox(
             height: 32,
           ),
-          _buildSidebarItem(
+          SidebarItem(
               context: context,
               icon: Icons.home_rounded,
               text: 'الرئيسية',
-              pathPattern: 'first',
-              isSelected: true,
-              beamerKey: beamerKey,
-              onTap: () {}),
-          _buildSidebarItem(
+              pathPattern: 'home',
+              beamerKey: widget.beamerKey,
+              onTap: () {
+                widget.beamerKey.currentState!.routerDelegate.beamToNamed('/home');
+              }),
+          SidebarItem(
               context: context,
               icon: Icons.book,
               text: 'المواد',
-              pathPattern: 'second',
-              isSelected: false,
-              beamerKey: beamerKey,
-              onTap: () {}),
-          _buildSidebarItem(
+              pathPattern: SubjectsScreen.pagePath,
+              beamerKey: widget.beamerKey,
+              onTap: () {
+                widget.beamerKey.currentState!.routerDelegate.beamToNamed('/subjects');
+              }),
+          SidebarItem(
               context: context,
               icon: Icons.edit_document,
               text: 'العلامات',
-              pathPattern: 'second',
-              isSelected: false,
-              beamerKey: beamerKey,
-              onTap: () {}),
-          _buildSidebarItem(
+              pathPattern: MarksScreen.pagePath,
+              beamerKey: widget.beamerKey,
+              onTap: () {
+                widget.beamerKey.currentState!.routerDelegate.beamToNamed('/marks');
+              }),
+          SidebarItem(
               context: context,
               icon: Icons.notifications_rounded,
               text: 'الإشعارات',
-              pathPattern: 'second',
-              isSelected: false,
-              beamerKey: beamerKey,
-              onTap: () {}),
-          _buildSidebarItem(
+              pathPattern: NotificationScreen.pagePath,
+              beamerKey: widget.beamerKey,
+              onTap: () {
+                widget.beamerKey.currentState!.routerDelegate.beamToNamed('/notification');
+              }),
+          SidebarItem(
               context: context,
               icon: Icons.group_rounded,
               text: 'مستخدمو التطبيق',
-              pathPattern: 'second',
-              isSelected: false,
-              beamerKey: beamerKey,
-              onTap: () {}),
-          _buildSidebarItem(
+              pathPattern: AppUsersScreen.pagePath,
+              beamerKey: widget.beamerKey,
+              onTap: () {
+                widget.beamerKey.currentState!.routerDelegate.beamToNamed('/app_users');
+              }),
+          SidebarItem(
+              context: context,
+              icon: Icons.group_rounded,
+              text: 'مستخدمو اللوحة',
+              pathPattern: DashUsersScreen.pagePath,
+              beamerKey: widget.beamerKey,
+              onTap: () {
+                widget.beamerKey.currentState!.routerDelegate.beamToNamed('/dash_users');
+              }),
+          SidebarItem(
               context: context,
               icon: Icons.settings_rounded,
               text: 'الإعدادات',
-              pathPattern: 'second',
-              isSelected: false,
-              beamerKey: beamerKey,
-              onTap: () {}),
+              pathPattern: 'setting',
+              beamerKey: widget.beamerKey,
+              onTap: () {
+                widget.beamerKey.currentState!.routerDelegate.beamToNamed('/setting');
+              }),
           const Spacer(),
-          _buildSidebarItem(
+          SidebarItem(
               context: context,
               icon: Icons.logout_rounded,
               text: 'تسجيل الخروج',
               pathPattern: 'second',
-              isSelected: false,
               isLogout: true,
-              beamerKey: beamerKey,
+              beamerKey: widget.beamerKey,
               onTap: () {}),
         ],
       ),
     );
   }
-
-  Widget _buildSidebarItem({
-    required BuildContext context,
-    required IconData icon,
-    required String text,
-    required String pathPattern,
-    required GlobalKey<BeamerState> beamerKey,
-    required bool isSelected,
-    required VoidCallback onTap,
-    bool isLogout = false,
-  }) {
-    // final isSelected = (beamerKey.currentState?.currentBeamLocation.state.routeInformation.location?.contains(pathPattern))??false;
-    // printK(isSelected);
-    return GestureDetector(
-      onTap: onTap,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
-        margin: REdgeInsets.symmetric(vertical: 4),
-        padding: REdgeInsets.all(16),
-        decoration: BoxDecoration(
-          gradient: isSelected
-              ? LinearGradient(
-            colors: [AppColors.primary, AppColors.primary.withOpacity(0.6)],
-            begin: Alignment.centerRight,
-            end: Alignment.centerLeft,
-          )
-              : null,
-          borderRadius: BorderRadius.circular(12.r),
-        ),
-        child: Row(
-          children: [
-            Icon(
-              icon,
-              color: !isLogout?isSelected ? AppColors.white : null:AppColors.red,
-            ),
-            const RSizedBox(
-              width: 16,
-            ),
-            AnimatedDefaultTextStyle(
-                style: context.textTheme.titleMedium!.copyWith(color: !isLogout?isSelected?AppColors.white:null:AppColors.red),
-                duration: const Duration(milliseconds: 300),
-                child:  Text(
-                    text
-                )),
-          ],
-        ),
-      ),
-    );
-  }
-  
-  
 }
+

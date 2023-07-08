@@ -1,6 +1,5 @@
 import 'package:ez_learn_dashboard/common/widget/custom_reactive_dropdown.dart';
 import 'package:ez_learn_dashboard/common/widget/custom_reactive_field.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
 import '../../../../../common/imports/imports.dart';
@@ -32,7 +31,8 @@ class SubjectDetailScreen extends StatelessWidget {
                     const Text('المواد'),
                     const Spacer(),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                      },
                       style: ElevatedButton.styleFrom(
                         padding: REdgeInsets.symmetric(horizontal: 8),
                         side: const BorderSide(color: AppColors.primary),
@@ -229,7 +229,58 @@ class SubjectDetailScreen extends StatelessWidget {
                                           'محاضرات النظري',
                                           style: context.textTheme.headlineSmall,
                                         ),
-                                        ElevatedButton(onPressed: () {}, child: const Text('إضافة محاضرة'))
+                                        ReactiveFormConsumer(
+                                          builder: (BuildContext context, FormGroup formGroup, Widget? child) {
+                                            return ElevatedButton(
+                                              onPressed: () {
+                                                showDialog(
+                                                    context: context,
+                                                    builder: (_) {
+                                                      return Dialog(
+                                                        child: ReactiveForm(
+                                                          formGroup: formGroup,
+                                                          child: SizedBox(
+                                                              width: cons.maxWidth * 0.25 - 12,
+                                                              child: Column(
+                                                                children: [
+                                                                  _buildInputTitle(text: 'اسم المادة', child: CustomReactiveField(controlName: '1')),
+                                                                  _buildInputTitle(
+                                                                      text: 'مدة الدراسة المتوقعة', child: CustomReactiveField(controlName: '1')),
+                                                                  Padding(
+                                                                    padding: const EdgeInsets.all(8.0),
+                                                                    child: Row(
+                                                                      children: [
+                                                                        const Text(
+                                                                          'الملف',
+                                                                          textAlign: TextAlign.start,
+                                                                        ),
+                                                                      ],
+                                                                    ),
+                                                                  ),
+                                                                  Container(
+                                                                    decoration: BoxDecoration(
+                                                                      borderRadius: BorderRadius.circular(12),
+                                                                      border: Border.all(color: AppColors.whiteBlue),
+                                                                    ),
+                                                                    alignment: Alignment.center,
+                                                                    child: SizedBox(
+                                                                      height: 300,
+                                                                      child: Icon(
+                                                                        Icons.add_circle_outline_rounded,
+                                                                        size: 80,
+                                                                      ),
+                                                                    ),
+                                                                  )
+                                                                ],
+                                                              )),
+                                                        ),
+                                                      );
+                                                    });
+                                              },
+                                              child: const Text('إضافة محاضرة'),
+                                            );
+                                          },
+                                        )
                                       ],
                                     ),
                                     const SizedBox(
@@ -237,143 +288,102 @@ class SubjectDetailScreen extends StatelessWidget {
                                     ),
                                     SizedBox(
                                       width: cons.maxWidth,
-                                      child: Row(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                      child: Column(
                                         children: [
-                                          SizedBox(
-                                            width: cons.maxWidth * 0.75 - 12,
-                                            child: Column(
-                                              children: [
-                                                Row(
-                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                  children: [
-                                                    Expanded(
-                                                        child: Text(
-                                                      'اسم الملف',
-                                                      style: context.textTheme.titleLarge,
-                                                    )),
-                                                    Expanded(
-                                                        child: Text(
-                                                      'مدة الدراسة المتوقعة',
-                                                      style: context.textTheme.titleLarge,
-                                                    )),
-                                                    Expanded(
-                                                        child: Text(
-                                                      'تاريخ الإضافة',
-                                                      style: context.textTheme.titleLarge,
-                                                    )),
-                                                    Expanded(
-                                                        child: Text(
-                                                      'الخيارات',
-                                                      style: context.textTheme.titleLarge,
-                                                    )),
-                                                  ],
-                                                ),
-                                                const SizedBox(
-                                                  height: 8,
-                                                ),
-                                                for (int i = 0; i < 10; i++)
-                                                  Padding(
-                                                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                                                    child: Row(
-                                                      children: [
-                                                        Expanded(
-                                                            child: Padding(
-                                                          padding: const EdgeInsets.only(right: 4),
-                                                          child: Text(
-                                                            'المحاضرة الأولى',
-                                                            style: context.textTheme.titleMedium,
-                                                          ),
-                                                        )),
-                                                        Expanded(
-                                                            child: Padding(
-                                                          padding: const EdgeInsets.only(right: 4),
-                                                          child: Text(
-                                                            '1 ساعة و20 دقيقة تقريبا',
-                                                            style: context.textTheme.titleMedium,
-                                                          ),
-                                                        )),
-                                                        Expanded(
-                                                            child: Padding(
-                                                          padding: const EdgeInsets.only(right: 4),
-                                                          child: Text(
-                                                            '2077-8-30',
-                                                            style: context.textTheme.titleMedium,
-                                                          ),
-                                                        )),
-                                                        Expanded(
-                                                          child: Padding(
-                                                            padding: const EdgeInsets.only(right: 4),
-                                                            child: Row(
-                                                              children: [
-                                                                ElevatedButton(
-                                                                  onPressed: () {},
-                                                                  style: ElevatedButton.styleFrom(
-                                                                    padding: REdgeInsets.symmetric(horizontal: 8),
-                                                                    side: const BorderSide(color: AppColors.primary),
-                                                                  ),
-                                                                  child: const Text('معاينة'),
-                                                                ),
-                                                                const Spacer(),
-                                                                OutlinedButton(
-                                                                  onPressed: () {
-                                                                    router.beamBack();
-                                                                  },
-                                                                  child: const Text('تعديل'),
-                                                                ),
-                                                                const Spacer(),
-                                                                OutlinedButton(
-                                                                  onPressed: () {},
-                                                                  style: OutlinedButton.styleFrom(
-                                                                    foregroundColor: AppColors.red,
-                                                                    side: const BorderSide(color: AppColors.red),
-                                                                  ),
-                                                                  child: const Text('حذف'),
-                                                                ),
-                                                                const Spacer()
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        )
-                                                      ],
-                                                    ),
-                                                  )
-                                              ],
-                                            ),
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Expanded(
+                                                  child: Text(
+                                                'اسم الملف',
+                                                style: context.textTheme.titleLarge,
+                                              )),
+                                              Expanded(
+                                                  child: Text(
+                                                'مدة الدراسة المتوقعة',
+                                                style: context.textTheme.titleLarge,
+                                              )),
+                                              Expanded(
+                                                  child: Text(
+                                                'تاريخ الإضافة',
+                                                style: context.textTheme.titleLarge,
+                                              )),
+                                              Expanded(
+                                                  child: Text(
+                                                'الخيارات',
+                                                style: context.textTheme.titleLarge,
+                                              )),
+                                            ],
                                           ),
-                                          SizedBox(
-                                              width: cons.maxWidth * 0.25 - 12,
-                                              child: Column(
+                                          const SizedBox(
+                                            height: 8,
+                                          ),
+                                          for (int i = 0; i < 10; i++)
+                                            Padding(
+                                              padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                              child: Row(
                                                 children: [
-                                                  _buildInputTitle(text: 'اسم المادة', child: CustomReactiveField(controlName: '1')),
-                                                  _buildInputTitle(text: 'مدة الدراسة المتوقعة', child: CustomReactiveField(controlName: '1')),
-                                                  Padding(
-                                                    padding: const EdgeInsets.all(8.0),
-                                                    child: Row(
-                                                      children: [
-                                                        const Text(
-                                                          'الملف',
-                                                          textAlign: TextAlign.start,
-                                                        ),
-                                                      ],
+                                                  Expanded(
+                                                      child: Padding(
+                                                    padding: const EdgeInsets.only(right: 4),
+                                                    child: Text(
+                                                      'المحاضرة الأولى',
+                                                      style: context.textTheme.titleMedium,
                                                     ),
-                                                  ),
-                                                  Container(
-                                                    decoration: BoxDecoration(
-                                                      borderRadius: BorderRadius.circular(12),
-                                                      border: Border.all(color: AppColors.whiteBlue),
+                                                  )),
+                                                  Expanded(
+                                                      child: Padding(
+                                                    padding: const EdgeInsets.only(right: 4),
+                                                    child: Text(
+                                                      '1 ساعة و20 دقيقة تقريبا',
+                                                      style: context.textTheme.titleMedium,
                                                     ),
-                                                    alignment: Alignment.center,
-                                                    child: SizedBox(
-                                                      height: 300,
-                                                      child: Icon(
-                                                        Icons.add_circle_outline_rounded,
-                                                        size: 80,
+                                                  )),
+                                                  Expanded(
+                                                      child: Padding(
+                                                    padding: const EdgeInsets.only(right: 4),
+                                                    child: Text(
+                                                      '2077-8-30',
+                                                      style: context.textTheme.titleMedium,
+                                                    ),
+                                                  )),
+                                                  Expanded(
+                                                    child: Padding(
+                                                      padding: const EdgeInsets.only(right: 4),
+                                                      child: Row(
+                                                        children: [
+                                                          ElevatedButton(
+                                                            onPressed: () {},
+                                                            style: ElevatedButton.styleFrom(
+                                                              padding: REdgeInsets.symmetric(horizontal: 8),
+                                                              side: const BorderSide(color: AppColors.primary),
+                                                            ),
+                                                            child: const Text('معاينة'),
+                                                          ),
+                                                          const Spacer(),
+                                                          OutlinedButton(
+                                                            onPressed: () {
+                                                              router.beamBack();
+                                                            },
+                                                            child: const Text('تعديل'),
+                                                          ),
+                                                          const Spacer(),
+                                                          OutlinedButton(
+                                                            onPressed: () {},
+                                                            style: OutlinedButton.styleFrom(
+                                                              foregroundColor: AppColors.red,
+                                                              side: const BorderSide(color: AppColors.red),
+                                                            ),
+                                                            child: const Text('حذف'),
+                                                          ),
+                                                          const Spacer()
+                                                        ],
                                                       ),
                                                     ),
                                                   )
                                                 ],
-                                              ))
+                                              ),
+                                            )
                                         ],
                                       ),
                                     ),
