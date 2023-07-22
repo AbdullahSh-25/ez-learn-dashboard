@@ -2,6 +2,8 @@ import 'package:ez_learn_dashboard/common/widget/custom_reactive_dropdown.dart';
 import 'package:ez_learn_dashboard/common/widget/custom_reactive_field.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
+import '../../../../../common/component/semester_dropdown.dart';
+import '../../../../../common/component/year_dropdown.dart';
 import '../../../../../common/imports/imports.dart';
 
 class SubjectDetailScreen extends StatelessWidget {
@@ -31,8 +33,7 @@ class SubjectDetailScreen extends StatelessWidget {
                     const Text('المواد'),
                     const Spacer(),
                     ElevatedButton(
-                      onPressed: () {
-                      },
+                      onPressed: () {},
                       style: ElevatedButton.styleFrom(
                         padding: REdgeInsets.symmetric(horizontal: 8),
                         side: const BorderSide(color: AppColors.primary),
@@ -108,50 +109,8 @@ class SubjectDetailScreen extends StatelessWidget {
                                         const SizedBox(
                                           width: 8,
                                         ),
-                                        Expanded(
-                                          flex: 2,
-                                          child: _buildInputTitle(
-                                            text: 'السنة الدراسية',
-                                            child: const CustomReactiveDropdown(controlName: '1', items: [
-                                              DropdownMenuItem(
-                                                value: 1,
-                                                child: Text('السنة الأولى'),
-                                              ),
-                                              DropdownMenuItem(
-                                                value: 2,
-                                                child: Text('السنة الثانية'),
-                                              ),
-                                              DropdownMenuItem(
-                                                value: 3,
-                                                child: Text('السنة الثالثة'),
-                                              ),
-                                              DropdownMenuItem(
-                                                value: 4,
-                                                child: Text('السنة الرابعة'),
-                                              ),
-                                              DropdownMenuItem(
-                                                value: 5,
-                                                child: Text('السنة الخامسة'),
-                                              ),
-                                            ]),
-                                          ),
-                                        ),
-                                        Expanded(
-                                          flex: 2,
-                                          child: _buildInputTitle(
-                                            text: 'الفصل الدراسي',
-                                            child: const CustomReactiveDropdown(controlName: '1', items: [
-                                              DropdownMenuItem(
-                                                value: 1,
-                                                child: Text('الفصل الأول'),
-                                              ),
-                                              DropdownMenuItem(
-                                                value: 2,
-                                                child: Text('الفصل الثاني'),
-                                              ),
-                                            ]),
-                                          ),
-                                        ),
+                                        const YearDropdown(controlName: '1'),
+                                        const SemesterDropdown(controlName: '1'),
                                       ],
                                     ),
                                   ),
@@ -243,14 +202,16 @@ class SubjectDetailScreen extends StatelessWidget {
                                                               width: cons.maxWidth * 0.25 - 12,
                                                               child: Column(
                                                                 children: [
-                                                                  _buildInputTitle(text: 'اسم المادة', child: CustomReactiveField(controlName: '1')),
                                                                   _buildInputTitle(
-                                                                      text: 'مدة الدراسة المتوقعة', child: CustomReactiveField(controlName: '1')),
+                                                                      text: 'اسم المادة', child: const CustomReactiveField(controlName: '1')),
+                                                                  _buildInputTitle(
+                                                                      text: 'مدة الدراسة المتوقعة',
+                                                                      child: const CustomReactiveField(controlName: '1')),
                                                                   Padding(
                                                                     padding: const EdgeInsets.all(8.0),
                                                                     child: Row(
-                                                                      children: [
-                                                                        const Text(
+                                                                      children: const [
+                                                                        Text(
                                                                           'الملف',
                                                                           textAlign: TextAlign.start,
                                                                         ),
@@ -263,7 +224,7 @@ class SubjectDetailScreen extends StatelessWidget {
                                                                       border: Border.all(color: AppColors.whiteBlue),
                                                                     ),
                                                                     alignment: Alignment.center,
-                                                                    child: SizedBox(
+                                                                    child: const SizedBox(
                                                                       height: 300,
                                                                       child: Icon(
                                                                         Icons.add_circle_outline_rounded,
@@ -391,14 +352,14 @@ class SubjectDetailScreen extends StatelessWidget {
                                 ),
                               );
                             }),
-                            Text('data'),
-                            Text('data'),
-                            Text('data'),
-                            Text('data'),
+                            const Text('data'),
+                            const Text('data'),
+                            const Text('data'),
+                            const Text('data'),
                           ],
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 50,
                       ),
                     ],
