@@ -51,7 +51,7 @@ class _SidebarItemState extends State<SidebarItem> with SingleTickerProviderStat
       },
       child: Animate(
         controller: controller,
-        effects: [FlipEffect()],
+        effects: [ShimmerEffect(duration: Duration(milliseconds: 700))],
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 300),
           margin: REdgeInsets.symmetric(vertical: 4),

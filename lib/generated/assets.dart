@@ -2,7 +2,6 @@
 class Assets {
   Assets._();
 
-  static const String fontsAlmaraiRegular = 'assets/fonts/AlmaraiRegular.ttf';
   static const String imagesDefault = 'assets/images/default.png';
   static const String imagesPlaceholder = 'assets/images/placeholder.png';
   static const String imagesTemp = 'assets/images/temp.png';
