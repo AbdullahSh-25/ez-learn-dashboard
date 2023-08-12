@@ -1,5 +1,6 @@
 import '../imports/imports.dart';
 import '../widget/custom_reactive_dropdown.dart';
+import '../widget/input_title.dart';
 
 class YearDropdown extends StatelessWidget {
   const YearDropdown({
@@ -45,16 +46,10 @@ class YearDropdown extends StatelessWidget {
   }
 
   Widget _buildInputTitle({required String text, required Widget child}) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(text),
-          const SizedBox(height: 8),
-          child,
-        ],
-      ),
+    return InputTitle(
+      text: text,
+      child: child,
     );
   }
 }
+

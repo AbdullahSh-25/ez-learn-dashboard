@@ -54,15 +54,6 @@ class _SidebarState extends State<Sidebar> {
           ),
           SidebarItem(
               context: context,
-              icon: Icons.home_rounded,
-              text: 'الرئيسية',
-              pathPattern: 'home',
-              beamerKey: widget.beamerKey,
-              onTap: () {
-                widget.beamerKey.currentState!.routerDelegate.beamToNamed('/home');
-              }),
-          SidebarItem(
-              context: context,
               icon: Icons.book,
               text: 'المواد',
               pathPattern: SubjectsScreen.pagePath,
@@ -105,15 +96,6 @@ class _SidebarState extends State<Sidebar> {
               beamerKey: widget.beamerKey,
               onTap: () {
                 widget.beamerKey.currentState!.routerDelegate.beamToNamed('/dash_users');
-              }),
-          SidebarItem(
-              context: context,
-              icon: Icons.settings_rounded,
-              text: 'الإعدادات',
-              pathPattern: 'setting',
-              beamerKey: widget.beamerKey,
-              onTap: () {
-                widget.beamerKey.currentState!.routerDelegate.beamToNamed('/setting');
               }),
           const Spacer(),
           SidebarItem(

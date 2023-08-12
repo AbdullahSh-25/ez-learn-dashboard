@@ -13,16 +13,12 @@ class InnerRouterConfig {
   InnerRouterConfig() {
     router = BeamerDelegate(
       transitionDelegate: const NoAnimationTransitionDelegate(),
-      initialPath: '/home',
+      initialPath: '/subjects',
       routeListener: (routeInformation, delegate) {
         printW('Inner Router ${routeInformation.location}');
       },
       locationBuilder: RoutesLocationBuilder(
         routes: {
-          '/home': (context, state, data) => const BeamPage(
-              key: ValueKey('home'),
-              title: 'Home',
-              child: Scaffold(body: Center(child: Text('Home'),),)),
           '/subjects': (context, state, data) => BeamPage(
               title: 'Subjects',
               key: const ValueKey('subjects'),
@@ -47,10 +43,6 @@ class InnerRouterConfig {
               title: 'Dash Users',
               key: ValueKey('dash_users'),
               child: DashUsersScreen()),
-          '/setting': (context, state, data) => const BeamPage(
-              title: 'Setting',
-              key: ValueKey('setting'),
-              child: Scaffold(body: Center(child: Text('Setting'),),)),
         },
       ),
     );

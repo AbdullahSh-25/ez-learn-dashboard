@@ -13,7 +13,7 @@ class AppStyle {
         backgroundColor: AppColors.primary,
         foregroundColor: AppColors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        padding: const EdgeInsets.symmetric(vertical: 16,horizontal: 24),
+        padding: const EdgeInsets.symmetric(vertical: 16,horizontal: 16),
         textStyle: const TextStyle(fontFamily: fontName)),
   );
 
@@ -23,7 +23,7 @@ class AppStyle {
         foregroundColor: AppColors.primary,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         side: const BorderSide(color: AppColors.primary),
-        padding: const EdgeInsets.symmetric(vertical: 16),
+        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
         textStyle: const TextStyle(fontFamily: fontName)),
   );
 
@@ -32,7 +32,7 @@ class AppStyle {
         backgroundColor: AppColors.white,
         foregroundColor: AppColors.primary,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-        padding: const EdgeInsets.symmetric(vertical: 16),
+        padding: const EdgeInsets.symmetric(vertical: 16,horizontal: 16),
         textStyle: const TextStyle(fontFamily: fontName)),
   );
 
@@ -43,7 +43,7 @@ class AppStyle {
       disabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8.r), borderSide: const BorderSide(color: AppColors.outlineBlack)),
       enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8.r), borderSide: const BorderSide(color: AppColors.primary)),
       errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(8.r), borderSide: const BorderSide(color: AppColors.red)),
-      labelStyle: TextStyle(fontSize: 14.sp, fontFamily: fontName));
+      labelStyle: const TextStyle(fontSize: 14, fontFamily: fontName));
 
   static final iconTheme = IconThemeData(color: AppColors.primary, size: 24.r);
 

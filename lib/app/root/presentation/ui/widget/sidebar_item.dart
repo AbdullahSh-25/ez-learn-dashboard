@@ -9,6 +9,7 @@ class SidebarItem extends StatefulWidget {
   final String pathPattern;
   final GlobalKey<BeamerState> beamerKey;
   final VoidCallback onTap;
+  final bool isLogout;
 
   const SidebarItem({
     Key? key,
@@ -18,7 +19,7 @@ class SidebarItem extends StatefulWidget {
     required this.pathPattern,
     required this.beamerKey,
     required this.onTap,
-    bool isLogout = false,
+    this.isLogout = false,
   }) : super(key: key);
 
   @override
@@ -26,7 +27,7 @@ class SidebarItem extends StatefulWidget {
 }
 
 class _SidebarItemState extends State<SidebarItem> with SingleTickerProviderStateMixin {
-  final bool isLogout = false;
+  late final bool isLogout;
   late bool isSelected;
 
   late final AnimationController controller;
@@ -34,7 +35,7 @@ class _SidebarItemState extends State<SidebarItem> with SingleTickerProviderStat
   @override
   void initState() {
     controller = AnimationController(vsync: this, duration: const Duration(milliseconds: 1000));
-
+    isLogout = widget.isLogout;
     super.initState();
   }
 
@@ -51,7 +52,7 @@ class _SidebarItemState extends State<SidebarItem> with SingleTickerProviderStat
       },
       child: Animate(
         controller: controller,
-        effects: [ShimmerEffect(duration: Duration(milliseconds: 700))],
+        effects: const [ShimmerEffect(duration: Duration(milliseconds: 700))],
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 300),
           margin: REdgeInsets.symmetric(vertical: 4),
