@@ -20,21 +20,24 @@ class PageBar extends StatelessWidget {
       padding: REdgeInsets.symmetric(horizontal: 16),
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                title,
-                style: context.textTheme.headlineSmall,
-              ),
-              onButtonPressed != null
-                  ? ElevatedButton.icon(
-                      onPressed: onButtonPressed,
-                      icon: const Icon(Icons.add),
-                      label: Text(buttonText),
-                    )
-                  : const SizedBox(),
-            ],
+          Padding(
+            padding: const EdgeInsets.only(bottom: 8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  title,
+                  style: context.textTheme.headlineSmall,
+                ),
+                onButtonPressed != null
+                    ? ElevatedButton.icon(
+                        onPressed: onButtonPressed,
+                        icon: const Icon(Icons.add),
+                        label: Text(buttonText),
+                      )
+                    : const SizedBox(),
+              ],
+            ),
           ),
           child,
         ],

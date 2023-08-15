@@ -60,8 +60,8 @@ class MarksScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                const YearDropdown(controlName: '1'),
-                const SemesterDropdown(controlName: '2'),
+                const Expanded(flex: 2, child: YearDropdown(controlName: '1')),
+                const Expanded(flex: 2, child: SemesterDropdown(controlName: '2')),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ElevatedButton(onPressed: () {}, child: Text('تطبيق')),

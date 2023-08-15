@@ -1,13 +1,14 @@
 import 'package:dotted_border/dotted_border.dart';
-import 'package:ez_learn_dashboard/app/subjects/presentation/ui/screen/subjects_screen.dart';
-import 'package:ez_learn_dashboard/common/widget/custom_reactive_dropdown.dart';
 import 'package:ez_learn_dashboard/common/widget/custom_reactive_field.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
 import '../../../../../common/component/semester_dropdown.dart';
 import '../../../../../common/component/year_dropdown.dart';
 import '../../../../../common/imports/imports.dart';
+import '../../../../../common/widget/custom_popup.dart';
 import '../../../../../common/widget/input_title.dart';
+import 'dart:html' as html;
+
 
 class SubjectDetailScreen extends StatelessWidget {
   final BeamerDelegate router;
@@ -33,7 +34,10 @@ class SubjectDetailScreen extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    const Text('المواد'),
+                    Text(
+                      'المواد',
+                      style: context.textTheme.headlineSmall,
+                    ),
                     const Spacer(),
                     ElevatedButton(
                       onPressed: () {},
@@ -78,7 +82,7 @@ class SubjectDetailScreen extends StatelessWidget {
                         color: Colors.grey.withOpacity(0.2),
                         spreadRadius: 3,
                         blurRadius: 10,
-                        offset: const Offset(-1, 1), // changes position of shadow
+                        offset: const Offset(-1, 1),
                       ),
                     ],
                   ),
@@ -112,8 +116,8 @@ class SubjectDetailScreen extends StatelessWidget {
                                         const SizedBox(
                                           width: 8,
                                         ),
-                                        const YearDropdown(controlName: '1'),
-                                        const SemesterDropdown(controlName: '1'),
+                                        const Expanded(flex: 2, child: YearDropdown(controlName: '1')),
+                                        const Expanded(flex: 2, child: SemesterDropdown(controlName: '1')),
                                       ],
                                     ),
                                   ),
@@ -121,7 +125,11 @@ class SubjectDetailScreen extends StatelessWidget {
                                     width: cons.maxWidth * 0.66,
                                     child: _buildInputTitle(
                                       text: 'وصف المادة',
-                                      child: const CustomReactiveField(controlName: '1'),
+                                      child: const CustomReactiveField(
+                                        controlName: '1',
+                                        maxLines: 4,
+                                        inputHeight: 100,
+                                      ),
                                     ),
                                   ),
                                 ],
@@ -130,14 +138,15 @@ class SubjectDetailScreen extends StatelessWidget {
                                 width: 16,
                               ),
                               SizedBox(
-                                  width: cons.maxWidth * 0.32,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(8),
-                                    child: Image.asset(
-                                      Assets.imagesDefault,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  )),
+                                width: cons.maxWidth * 0.32,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(8),
+                                  child: Image.asset(
+                                    Assets.imagesDefault,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                         ],
@@ -165,7 +174,10 @@ class SubjectDetailScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('محتويات المادة'),
+                      Text(
+                        'محتويات المادة',
+                        style: context.textTheme.headlineSmall!.copyWith(fontWeight: FontWeight.normal, fontSize: 20.sp),
+                      ),
                       const TabBar(
                         tabs: [
                           Tab(child: Text('النظري (5)')),
@@ -179,177 +191,186 @@ class SubjectDetailScreen extends StatelessWidget {
                         height: 600,
                         child: TabBarView(
                           children: [
-                            LayoutBuilder(builder: (context, cons) {
-                              return Padding(
-                                padding: const EdgeInsets.all(12),
-                                child: Column(
-                                  children: [
-                                    Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          'محاضرات النظري',
-                                          style: context.textTheme.headlineSmall,
-                                        ),
-                                        ReactiveFormConsumer(
-                                          builder: (BuildContext context, FormGroup formGroup, Widget? child) {
-                                            return ElevatedButton(
-                                              onPressed: () {
-                                                showCustomPopup(context: context, child: Row(
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                                  children: [
-                                                    SizedBox(
-                                                      width: context.screenWidth * 0.3,
-                                                      child:  const Column(
-                                                        mainAxisSize: MainAxisSize.min,
-                                                        children: [
-                                                          InputTitle(text: 'اسم الملف', child: CustomReactiveField(controlName: 'name')),
-                                                          InputTitle(
-                                                            text: 'مدة الدراسة المتوقعة',
-                                                            child: CustomReactiveField(
-                                                              controlName: 'description',
-                                                              keyboardType: TextInputType.multiline,
-                                                              minLines: 1,
-                                                              maxLines: 20,
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                    SizedBox(
-                                                      width: context.screenWidth * 0.17,
-                                                      // height: context.screenWidth * 0.15,
-                                                      child: Padding(
-                                                        padding: const EdgeInsets.all(8.0),
-                                                        child: DottedBorder(
-                                                          borderType: BorderType.RRect,
-                                                          radius: const Radius.circular(12),
-                                                          dashPattern: const [6, 2.5],
-                                                          child: const Center(
-                                                            child: Icon(Icons.add_circle_outline_rounded, size: 120),
+                            LayoutBuilder(
+                              builder: (context, cons) {
+                                return Padding(
+                                  padding: const EdgeInsets.all(12),
+                                  child: Column(
+                                    children: [
+                                      Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            'محاضرات النظري',
+                                            style: context.textTheme.headlineSmall,
+                                          ),
+                                          ReactiveFormConsumer(
+                                            builder: (BuildContext context, FormGroup formGroup, Widget? child) {
+                                              return ElevatedButton(
+                                                onPressed: () {
+                                                  showCustomPopup(
+                                                    context: context,
+                                                    title: 'محضارة نظري جديدة',
+                                                    child: Row(
+                                                      mainAxisSize: MainAxisSize.min,
+                                                      crossAxisAlignment: CrossAxisAlignment.end,
+                                                      children: [
+                                                        SizedBox(
+                                                          width: context.screenWidth * 0.3,
+                                                          child: const Column(
+                                                            mainAxisSize: MainAxisSize.min,
+                                                            children: [
+                                                              InputTitle(text: 'اسم الملف', child: CustomReactiveField(controlName: 'name')),
+                                                              InputTitle(
+                                                                text: 'مدة الدراسة المتوقعة',
+                                                                child: CustomReactiveField(
+                                                                  controlName: 'description',
+                                                                  keyboardType: TextInputType.multiline,
+                                                                  minLines: 1,
+                                                                  maxLines: 20,
+                                                                ),
+                                                              ),
+                                                            ],
                                                           ),
                                                         ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ));
-
-                                              },
-                                              child: const Text('إضافة محاضرة'),
-                                            );
-                                          },
-                                        )
-                                      ],
-                                    ),
-                                    const SizedBox(
-                                      height: 8,
-                                    ),
-                                    SizedBox(
-                                      width: cons.maxWidth,
-                                      child: Column(
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Expanded(
-                                                  child: Text(
-                                                'اسم الملف',
-                                                style: context.textTheme.titleLarge,
-                                              )),
-                                              Expanded(
-                                                  child: Text(
-                                                'مدة الدراسة المتوقعة',
-                                                style: context.textTheme.titleLarge,
-                                              )),
-                                              Expanded(
-                                                  child: Text(
-                                                'تاريخ الإضافة',
-                                                style: context.textTheme.titleLarge,
-                                              )),
-                                              Expanded(
-                                                  child: Text(
-                                                'الخيارات',
-                                                style: context.textTheme.titleLarge,
-                                              )),
-                                            ],
-                                          ),
-                                          const SizedBox(
-                                            height: 8,
-                                          ),
-                                          for (int i = 0; i < 10; i++)
-                                            Padding(
-                                              padding: const EdgeInsets.symmetric(vertical: 8.0),
-                                              child: Row(
-                                                children: [
-                                                  Expanded(
-                                                      child: Padding(
-                                                    padding: const EdgeInsets.only(right: 4),
-                                                    child: Text(
-                                                      'المحاضرة الأولى',
-                                                      style: context.textTheme.titleMedium,
-                                                    ),
-                                                  )),
-                                                  Expanded(
-                                                      child: Padding(
-                                                    padding: const EdgeInsets.only(right: 4),
-                                                    child: Text(
-                                                      '1 ساعة و20 دقيقة تقريبا',
-                                                      style: context.textTheme.titleMedium,
-                                                    ),
-                                                  )),
-                                                  Expanded(
-                                                      child: Padding(
-                                                    padding: const EdgeInsets.only(right: 4),
-                                                    child: Text(
-                                                      '2077-8-30',
-                                                      style: context.textTheme.titleMedium,
-                                                    ),
-                                                  )),
-                                                  Expanded(
-                                                    child: Padding(
-                                                      padding: const EdgeInsets.only(right: 4),
-                                                      child: Row(
-                                                        children: [
-                                                          ElevatedButton(
-                                                            onPressed: () {},
-                                                            style: ElevatedButton.styleFrom(
-                                                              padding: REdgeInsets.symmetric(horizontal: 8),
-                                                              side: const BorderSide(color: AppColors.primary),
+                                                        SizedBox(
+                                                          width: context.screenWidth * 0.17,
+                                                          child: Padding(
+                                                            padding: const EdgeInsets.all(8.0),
+                                                            child: DottedBorder(
+                                                              borderType: BorderType.RRect,
+                                                              radius: const Radius.circular(12),
+                                                              dashPattern: const [6, 2.5],
+                                                              child: const Center(
+                                                                child: Icon(Icons.add_circle_outline_rounded, size: 120),
+                                                              ),
                                                             ),
-                                                            child: const Text('معاينة'),
                                                           ),
-                                                          const Spacer(),
-                                                          OutlinedButton(
-                                                            onPressed: () {
-                                                              router.beamBack();
-                                                            },
-                                                            child: const Text('تعديل'),
-                                                          ),
-                                                          const Spacer(),
-                                                          OutlinedButton(
-                                                            onPressed: () {},
-                                                            style: OutlinedButton.styleFrom(
-                                                              foregroundColor: AppColors.red,
-                                                              side: const BorderSide(color: AppColors.red),
-                                                            ),
-                                                            child: const Text('حذف'),
-                                                          ),
-                                                          const Spacer()
-                                                        ],
-                                                      ),
+                                                        ),
+                                                      ],
                                                     ),
-                                                  )
-                                                ],
-                                              ),
-                                            )
+                                                  );
+                                                },
+                                                child: const Text('إضافة محاضرة'),
+                                              );
+                                            },
+                                          )
                                         ],
                                       ),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            }),
+                                      const SizedBox(
+                                        height: 8,
+                                      ),
+                                      SizedBox(
+                                        width: cons.maxWidth,
+                                        child: Column(
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              children: [
+                                                Expanded(
+                                                    child: Text(
+                                                  'اسم الملف',
+                                                  style: context.textTheme.titleLarge,
+                                                )),
+                                                Expanded(
+                                                    child: Text(
+                                                  'مدة الدراسة المتوقعة',
+                                                  style: context.textTheme.titleLarge,
+                                                )),
+                                                Expanded(
+                                                    child: Text(
+                                                  'تاريخ الإضافة',
+                                                  style: context.textTheme.titleLarge,
+                                                )),
+                                                Expanded(
+                                                    child: Text(
+                                                  'الخيارات',
+                                                  style: context.textTheme.titleLarge,
+                                                )),
+                                              ],
+                                            ),
+                                            const SizedBox(
+                                              height: 8,
+                                            ),
+                                            for (int i = 0; i < 10; i++)
+                                              Padding(
+                                                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                                                child: Row(
+                                                  children: [
+                                                    Expanded(
+                                                        child: Padding(
+                                                      padding: const EdgeInsets.only(right: 4),
+                                                      child: Text(
+                                                        'المحاضرة الأولى',
+                                                        style: context.textTheme.titleMedium,
+                                                      ),
+                                                    ),),
+                                                    Expanded(
+                                                        child: Padding(
+                                                      padding: const EdgeInsets.only(right: 4),
+                                                      child: Text(
+                                                        '1 ساعة و20 دقيقة تقريبا',
+                                                        style: context.textTheme.titleMedium,
+                                                      ),
+                                                    ),),
+                                                    Expanded(
+                                                        child: Padding(
+                                                      padding: const EdgeInsets.only(right: 4),
+                                                      child: Text(
+                                                        '2077-8-30',
+                                                        style: context.textTheme.titleMedium,
+                                                      ),
+                                                    ),),
+                                                    Expanded(
+                                                      child: Padding(
+                                                        padding: const EdgeInsets.only(right: 4),
+                                                        child: Row(
+                                                          children: [
+                                                            ElevatedButton(
+                                                              onPressed: () {
+                                                                html.window.open('https://www2.seas.gwu.edu/~dorpjr/EMSE269/Extra%20Problems/Extra%20Problem%206%20-%20Solving%20Decision%20Trees%20-%20Solution%20Key.pdf', 'New Tab');
+                                                              },
+                                                              style: ElevatedButton.styleFrom(
+                                                                padding: REdgeInsets.symmetric(horizontal: 8),
+                                                                side: const BorderSide(color: AppColors.primary),
+                                                              ),
+                                                              child: const Text('معاينة'),
+                                                            ),
+                                                            const Spacer(),
+                                                            OutlinedButton(
+                                                              onPressed: () {
+                                                                router.beamBack();
+                                                              },
+                                                              child: const Text('تعديل'),
+                                                            ),
+                                                            const Spacer(),
+                                                            OutlinedButton(
+                                                              onPressed: () {
+
+                                                                // https://www2.seas.gwu.edu/~dorpjr/EMSE269/Extra%20Problems/Extra%20Problem%206%20-%20Solving%20Decision%20Trees%20-%20Solution%20Key.pdf
+                                                              },
+                                                              style: OutlinedButton.styleFrom(
+                                                                foregroundColor: AppColors.red,
+                                                                side: const BorderSide(color: AppColors.red),
+                                                              ),
+                                                              child: const Text('حذف'),
+                                                            ),
+                                                            const Spacer()
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
                             LayoutBuilder(builder: (context, cons) {
                               return Padding(
                                 padding: const EdgeInsets.all(12),
@@ -366,45 +387,49 @@ class SubjectDetailScreen extends StatelessWidget {
                                           builder: (BuildContext context, FormGroup formGroup, Widget? child) {
                                             return ElevatedButton(
                                               onPressed: () {
-                                                showCustomPopup(context: context, child: Row(
-                                                  mainAxisSize: MainAxisSize.min,
-                                                  crossAxisAlignment: CrossAxisAlignment.end,
-                                                  children: [
-                                                    SizedBox(
-                                                      width: context.screenWidth * 0.3,
-                                                      child:  const Column(
-                                                        mainAxisSize: MainAxisSize.min,
-                                                        children: [
-                                                          InputTitle(text: 'اسم الملف', child: CustomReactiveField(controlName: 'name')),
-                                                          InputTitle(
-                                                            text: 'مدة الدراسة المتوقعة',
-                                                            child: CustomReactiveField(
-                                                              controlName: 'description',
-                                                              keyboardType: TextInputType.multiline,
-                                                              minLines: 1,
-                                                              maxLines: 20,
+                                                showCustomPopup(
+                                                  context: context,
+                                                  title: 'محضارة عملي جديدة',
+                                                  child: Row(
+                                                    mainAxisSize: MainAxisSize.min,
+                                                    crossAxisAlignment: CrossAxisAlignment.end,
+                                                    children: [
+                                                      SizedBox(
+                                                        width: context.screenWidth * 0.3,
+                                                        child: const Column(
+                                                          mainAxisSize: MainAxisSize.min,
+                                                          children: [
+                                                            InputTitle(text: 'اسم الملف', child: CustomReactiveField(controlName: 'name')),
+                                                            InputTitle(
+                                                              text: 'مدة الدراسة المتوقعة',
+                                                              child: CustomReactiveField(
+                                                                controlName: 'description',
+                                                                keyboardType: TextInputType.multiline,
+                                                                minLines: 1,
+                                                                maxLines: 20,
+                                                              ),
                                                             ),
-                                                          ),
-                                                        ],
+                                                          ],
+                                                        ),
                                                       ),
-                                                    ),
-                                                    SizedBox(
-                                                      width: context.screenWidth * 0.17,
-                                                      // height: context.screenWidth * 0.15,
-                                                      child: Padding(
-                                                        padding: const EdgeInsets.all(8.0),
-                                                        child: DottedBorder(
-                                                          borderType: BorderType.RRect,
-                                                          radius: const Radius.circular(12),
-                                                          dashPattern: const [6, 2.5],
-                                                          child: const Center(
-                                                            child: Icon(Icons.add_circle_outline_rounded, size: 120),
+                                                      SizedBox(
+                                                        width: context.screenWidth * 0.17,
+                                                        // height: context.screenWidth * 0.15,
+                                                        child: Padding(
+                                                          padding: const EdgeInsets.all(8.0),
+                                                          child: DottedBorder(
+                                                            borderType: BorderType.RRect,
+                                                            radius: const Radius.circular(12),
+                                                            dashPattern: const [6, 2.5],
+                                                            child: const Center(
+                                                              child: Icon(Icons.add_circle_outline_rounded, size: 120),
+                                                            ),
                                                           ),
                                                         ),
                                                       ),
-                                                    ),
-                                                  ],
-                                                ));
+                                                    ],
+                                                  ),
+                                                );
                                                 // showDialog(
                                                 //     context: context,
                                                 //     builder: (_) {

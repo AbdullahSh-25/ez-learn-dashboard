@@ -32,7 +32,7 @@ class CustomReactiveField extends StatelessWidget {
         minLines: minLines,
         maxLines: maxLines,
         decoration: const InputDecoration(
-          contentPadding: EdgeInsets.symmetric(horizontal: 8),
+          contentPadding: EdgeInsets.symmetric(horizontal: 8,vertical: 12),
         ),
       ),
     );

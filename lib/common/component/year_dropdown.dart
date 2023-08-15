@@ -12,35 +12,32 @@ class YearDropdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      flex: 2,
-      child: _buildInputTitle(
-        text: 'السنة الدراسية',
-        child: CustomReactiveDropdown(
-          controlName: controlName,
-          items: const [
-            DropdownMenuItem(
-              value: 1,
-              child: Text('السنة الأولى'),
-            ),
-            DropdownMenuItem(
-              value: 2,
-              child: Text('السنة الثانية'),
-            ),
-            DropdownMenuItem(
-              value: 3,
-              child: Text('السنة الثالثة'),
-            ),
-            DropdownMenuItem(
-              value: 4,
-              child: Text('السنة الرابعة'),
-            ),
-            DropdownMenuItem(
-              value: 5,
-              child: Text('السنة الخامسة'),
-            ),
-          ],
-        ),
+    return _buildInputTitle(
+      text: 'السنة الدراسية',
+      child: CustomReactiveDropdown(
+        controlName: controlName,
+        items: const [
+          DropdownMenuItem(
+            value: 1,
+            child: Text('السنة الأولى'),
+          ),
+          DropdownMenuItem(
+            value: 2,
+            child: Text('السنة الثانية'),
+          ),
+          DropdownMenuItem(
+            value: 3,
+            child: Text('السنة الثالثة'),
+          ),
+          DropdownMenuItem(
+            value: 4,
+            child: Text('السنة الرابعة'),
+          ),
+          DropdownMenuItem(
+            value: 5,
+            child: Text('السنة الخامسة'),
+          ),
+        ],
       ),
     );
   }

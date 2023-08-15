@@ -11,23 +11,20 @@ class SemesterDropdown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      flex: 2,
-      child: _buildInputTitle(
-        text: 'الفصل الدراسي',
-        child: CustomReactiveDropdown(
-          controlName: controlName,
-          items: const [
-            DropdownMenuItem(
-              value: 1,
-              child: Text('الفصل الأول'),
-            ),
-            DropdownMenuItem(
-              value: 2,
-              child: Text('الفصل الثاني'),
-            ),
-          ],
-        ),
+    return _buildInputTitle(
+      text: 'الفصل الدراسي',
+      child: CustomReactiveDropdown(
+        controlName: controlName,
+        items: const [
+          DropdownMenuItem(
+            value: 1,
+            child: Text('الفصل الأول'),
+          ),
+          DropdownMenuItem(
+            value: 2,
+            child: Text('الفصل الثاني'),
+          ),
+        ],
       ),
     );
   }
