@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 
 import '../imports/imports.dart';
 
-showCustomPopup({required BuildContext context, required String title, required Widget child, double? width, VoidCallback? onConfirm}) {
+showCustomPopup({required BuildContext context, required String title, required Widget child, double? width, VoidCallback? onConfirm,String? confirmText}) {
   return showCupertinoModalPopup(
     context: context,
     barrierColor: AppColors.textColor.withOpacity(0.4),
@@ -51,9 +51,9 @@ showCustomPopup({required BuildContext context, required String title, required 
                         const SizedBox(width: 8),
                         ElevatedButton(
                             onPressed: onConfirm,
-                            child: const Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 8.0),
-                              child: Text('إضافة'),
+                            child:  Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Text(confirmText??'إضافة'),
                             )),
                       ],
                     )

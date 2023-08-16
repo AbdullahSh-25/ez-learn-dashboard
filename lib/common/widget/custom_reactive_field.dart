@@ -8,7 +8,11 @@ class CustomReactiveField extends StatelessWidget {
   final TextInputAction? textInputAction;
   final int? minLines;
   final int? maxLines;
+  final Widget? prefix;
   final double inputHeight;
+  final bool readOnly;
+  final ReactiveFormFieldCallback? onTap;
+  final Map<String, ValidationMessageFunction>? validation;
 
 
   const CustomReactiveField({
@@ -18,7 +22,11 @@ class CustomReactiveField extends StatelessWidget {
     this.textInputAction,
     this.minLines,
     this.maxLines,
+    this.prefix,
     this.inputHeight = 36,
+    this.readOnly = false,
+    this.onTap,
+    this.validation,
   }) : super(key: key);
 
   @override
@@ -29,10 +37,14 @@ class CustomReactiveField extends StatelessWidget {
         formControlName: controlName,
         keyboardType: keyboardType,
         textInputAction: textInputAction,
+        readOnly: readOnly,
+        onTap: onTap,
         minLines: minLines,
         maxLines: maxLines,
-        decoration: const InputDecoration(
-          contentPadding: EdgeInsets.symmetric(horizontal: 8,vertical: 12),
+        validationMessages: validation,
+        decoration:  InputDecoration(
+          prefixIcon: prefix,
+          contentPadding: const EdgeInsets.symmetric(horizontal: 8,vertical: 12),
         ),
       ),
     );

@@ -50,7 +50,7 @@ class SubjectItem extends StatelessWidget {
               SizedBox(
                 width: double.maxFinite,
                 child: Image.asset(
-                 subjectImage,
+                  subjectImage,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -64,17 +64,19 @@ class SubjectItem extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           SizedBox(
-                            width: cons.maxWidth * 0.4,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                _buildContentCount(content: 'النظري', count: theoNumber),
-                                _buildContentCount(content: 'الفيديوهات', count: vidNumber),
-                              ],
+                            width: cons.maxWidth * 0.45,
+                            child: Center(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  _buildContentCount(content: 'النظري', count: theoNumber),
+                                  _buildContentCount(content: 'الفيديوهات', count: vidNumber),
+                                ],
+                              ),
                             ),
                           ),
                           SizedBox(
-                            width: cons.maxWidth * 0.4,
+                            width: cons.maxWidth * 0.3,
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
@@ -123,11 +125,9 @@ class SubjectItem extends StatelessWidget {
 
   Widget _buildContentCount({required String content, required int count}) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Text(
-          content,
-        ),
+        Text(content),
         const SizedBox(width: 4),
         Text(count.toString()),
       ],
