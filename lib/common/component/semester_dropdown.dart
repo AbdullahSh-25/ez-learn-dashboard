@@ -17,11 +17,11 @@ class SemesterDropdown extends StatelessWidget {
         controlName: controlName,
         items: const [
           DropdownMenuItem(
-            value: 1,
+            value: 0,
             child: Text('الفصل الأول'),
           ),
           DropdownMenuItem(
-            value: 2,
+            value: 1,
             child: Text('الفصل الثاني'),
           ),
         ],

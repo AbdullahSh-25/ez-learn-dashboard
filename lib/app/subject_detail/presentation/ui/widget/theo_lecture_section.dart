@@ -1,13 +1,27 @@
-import 'package:dotted_border/dotted_border.dart';
+
+import 'package:ez_learn_dashboard/app/subject_detail/presentation/state/bloc/subject_detail_bloc.dart';
+import 'package:ez_learn_dashboard/common/utils/converter.dart';
+import 'package:ez_learn_dashboard/common/utils/date_time_extension.dart';
 import 'package:reactive_forms/reactive_forms.dart';
+import 'package:file_picker/file_picker.dart';
+
 import 'dart:html' as html;
+
 import '../../../../../common/imports/imports.dart';
 import '../../../../../common/widget/custom_popup.dart';
 import '../../../../../common/widget/custom_reactive_field.dart';
 import '../../../../../common/widget/input_title.dart';
+import '../../../infrastructure/models/subject_detail_model.dart';
 
 class TheoLectureSection extends StatelessWidget {
-  const TheoLectureSection({super.key});
+  final String subjectId;
+  final List<LectureModel> lectures;
+
+  const TheoLectureSection({
+    super.key,
+    required this.subjectId,
+    required this.lectures,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -27,16 +41,17 @@ class TheoLectureSection extends StatelessWidget {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        final form = FormGroup({
-                          'name': FormControl(),
-                          'description': FormControl(validators: [Validators.number, Validators.required]),
-                        });
+
+                        final bloc = context.read<SubjectDetailBloc>();
                         showCustomPopup(
                           context: context,
                           title: 'محضارة نظري جديدة',
+                          onConfirm: () {
+                            bloc.add(AddLecture(subjectId, 1));
+                          },
                           width: context.screenWidth * 0.3,
                           child: ReactiveForm(
-                            formGroup: form,
+                            formGroup: SubjectDetailBloc.theoLecForm,
                             child: ReactiveFormConsumer(
                               builder: (context, form, _) => Column(
                                 mainAxisSize: MainAxisSize.min,
@@ -45,7 +60,7 @@ class TheoLectureSection extends StatelessWidget {
                                   InputTitle(
                                     text: 'مدة الدراسة المتوقعة (بالدقائق)',
                                     child: CustomReactiveField(
-                                      controlName: 'description',
+                                      controlName: 'expectedTime',
                                       keyboardType: TextInputType.number,
                                       validation: {
                                         ValidationMessage.number: (val) => 'error',
@@ -56,10 +71,19 @@ class TheoLectureSection extends StatelessWidget {
                                   InputTitle(
                                     text: 'مسار الملف',
                                     child: CustomReactiveField(
-                                      controlName: 'description',
+                                      controlName: 'file_path',
                                       readOnly: true,
-                                      onTap: (v) {
-                                        v.value = 'test';
+                                      onTap: (v) async {
+                                        final result = (await FilePicker.platform.pickFiles(
+                                          type: FileType.custom,
+                                          allowedExtensions: ['pdf'],
+                                        ))
+                                            ?.files
+                                            .first;
+                                        if (result != null) {
+                                          v.value = result.name;
+                                          SubjectDetailBloc.theoLecForm.control('file').value = result.bytes;
+                                        }
                                       },
                                       prefix: Container(
                                         padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -126,7 +150,20 @@ class TheoLectureSection extends StatelessWidget {
                       const SizedBox(
                         height: 8,
                       ),
-                      for (int i = 0; i < 10; i++)
+                      if (lectures.isEmpty)
+                        const Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              height: 200,
+                            ),
+                            Text(
+                              'لا يوجد محاضرات بعد في هذه المادة',
+                              style: TextStyle(fontSize: 20),
+                            ),
+                          ],
+                        ),
+                      for (int i = 0; i < lectures.length; i++)
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8.0),
                           child: Row(
@@ -135,7 +172,7 @@ class TheoLectureSection extends StatelessWidget {
                                 child: Padding(
                                   padding: const EdgeInsets.only(right: 4),
                                   child: Text(
-                                    'المحاضرة الأولى',
+                                    lectures[i].name,
                                     style: context.textTheme.titleMedium,
                                   ),
                                 ),
@@ -144,7 +181,7 @@ class TheoLectureSection extends StatelessWidget {
                                 child: Padding(
                                   padding: const EdgeInsets.only(right: 4),
                                   child: Text(
-                                    '1 ساعة و20 دقيقة تقريبا',
+                                    lectures[i].expectedPeriod.convertToTime(),
                                     style: context.textTheme.titleMedium,
                                   ),
                                 ),
@@ -153,7 +190,7 @@ class TheoLectureSection extends StatelessWidget {
                                 child: Padding(
                                   padding: const EdgeInsets.only(right: 4),
                                   child: Text(
-                                    '2077-8-30',
+                                    lectures[i].dateCreated.toString().date(),
                                     style: context.textTheme.titleMedium,
                                   ),
                                 ),
@@ -165,9 +202,7 @@ class TheoLectureSection extends StatelessWidget {
                                     children: [
                                       ElevatedButton(
                                         onPressed: () {
-                                          html.window.open(
-                                              'https://www2.seas.gwu.edu/~dorpjr/EMSE269/Extra%20Problems/Extra%20Problem%206%20-%20Solving%20Decision%20Trees%20-%20Solution%20Key.pdf',
-                                              'New Tab');
+                                          html.window.open(buildDocPath(lectures[i].lectureUrl), 'New Tab');
                                         },
                                         style: ElevatedButton.styleFrom(
                                           padding: REdgeInsets.symmetric(horizontal: 8),

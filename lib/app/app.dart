@@ -1,4 +1,6 @@
 
+import 'package:bot_toast/bot_toast.dart';
+
 import '../common/config/theme/theme.dart';
 import '../common/imports/imports.dart';
 
@@ -31,7 +33,8 @@ class _MyAppState extends State<MyApp> {
         routerDelegate: router.router,
         routeInformationParser: BeamerParser(),
         builder: (context, child) {
-          return Directionality(textDirection: TextDirection.rtl, child: child!);
+          child = BotToastInit()(context,child);
+          return Directionality(textDirection: TextDirection.rtl, child: child);
         },
       ),
     );

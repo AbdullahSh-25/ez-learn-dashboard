@@ -1,3 +1,6 @@
+import 'package:ez_learn_dashboard/app/subject_detail/presentation/state/bloc/subject_detail_bloc.dart';
+import 'package:ez_learn_dashboard/common/utils/converter.dart';
+import 'package:ez_learn_dashboard/common/widget/custom_network_image.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
@@ -8,8 +11,23 @@ import '../../../../../common/widget/custom_reactive_field.dart';
 import '../../../../../common/widget/input_title.dart';
 
 class SubjectDetails extends StatelessWidget {
+  final String id;
+  final String subjectName;
+  final int year;
+  final int semester;
+  final String imageUrl;
+  final String description;
+  final bool isOptional;
+
   const SubjectDetails({
     super.key,
+    required this.id,
+    required this.subjectName,
+    required this.year,
+    required this.semester,
+    required this.description,
+    required this.isOptional,
+    required this.imageUrl,
   });
 
   @override
@@ -35,7 +53,7 @@ class SubjectDetails extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'تفاصيل مادة الذكاء الصنعي',
+                'تفاصيل مادة $subjectName',
                 style: context.textTheme.headlineSmall!.copyWith(fontWeight: FontWeight.normal, fontSize: 20.sp),
               ),
               Row(
@@ -53,14 +71,14 @@ class SubjectDetails extends StatelessWidget {
                               flex: 4,
                               child: InputTitle(
                                 text: 'اسم المادة',
-                                child: CustomReactiveField(controlName: '3'),
+                                child: CustomReactiveField(controlName: SubjectDetailBloc.name),
                               ),
                             ),
                             SizedBox(
                               width: 8,
                             ),
-                            Expanded(flex: 2, child: YearDropdown(controlName: '1')),
-                            Expanded(flex: 2, child: SemesterDropdown(controlName: '1')),
+                            Expanded(flex: 2, child: YearDropdown(controlName: SubjectDetailBloc.year)),
+                            Expanded(flex: 2, child: SemesterDropdown(controlName: SubjectDetailBloc.semester)),
                           ],
                         ),
                       ),
@@ -69,7 +87,7 @@ class SubjectDetails extends StatelessWidget {
                         child: const InputTitle(
                           text: 'وصف المادة',
                           child: CustomReactiveField(
-                            controlName: '1',
+                            controlName: SubjectDetailBloc.description,
                             maxLines: 4,
                             inputHeight: 100,
                           ),
@@ -111,12 +129,18 @@ class SubjectDetails extends StatelessWidget {
                                           height: 200,
                                           fit: BoxFit.cover,
                                         )
-                                      : Image.asset(
-                                          Assets.imagesDefault,
-                                          width: cons.maxWidth * 0.32,
-                                          height: 200,
-                                          fit: BoxFit.cover,
-                                        ),
+                                      : form.control('image_path').value != null
+                                          ? CustomNetworkImage(
+                                              imageUrl: buildDocPath(imageUrl),
+                                              width: cons.maxWidth * 0.32,
+                                              height: 200,
+                                            )
+                                          : Image.asset(
+                                              Assets.imagesDefault,
+                                              width: cons.maxWidth * 0.32,
+                                              height: 200,
+                                              fit: BoxFit.cover,
+                                            ),
                                 ),
                                 AnimatedOpacity(
                                   opacity: hover ? 1 : 0,

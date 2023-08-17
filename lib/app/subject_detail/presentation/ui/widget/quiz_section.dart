@@ -5,7 +5,12 @@ import '../../../../../common/widget/custom_reactive_field.dart';
 import '../../../../../common/widget/input_title.dart';
 
 class QuizSection extends StatelessWidget {
-  const QuizSection({Key? key}) : super(key: key);
+  final List<String> questions;
+
+  const QuizSection({
+    Key? key,
+    required this.questions,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -28,82 +33,82 @@ class QuizSection extends StatelessWidget {
                         'الاختبارات',
                         style: context.textTheme.headlineSmall,
                       ),
-                      ReactiveFormConsumer(
-                        builder: (BuildContext context, FormGroup formGroup, Widget? child) {
-                          return ElevatedButton(
-                            onPressed: () {
-                              showCustomPopup(
-                                context: context,
-                                confirmText: 'حفظ',
-                                title: 'معلومات السؤال',
-                                child: ReactiveForm(
-                                  formGroup: FormGroup({
-                                    '1': FormControl(),
-                                    '2': FormControl(),
-                                  }),
-                                  child: Column(
-                                    children: [
-                                      const InputTitle(
-                                        text: 'نص السؤال',
-                                        child: CustomReactiveField(controlName: '1'),
-                                      ),
-                                      const InputTitle(
-                                        text: 'التلميح',
-                                        child: CustomReactiveField(controlName: '1'),
-                                      ),
-                                      InputTitle(
-                                        text: 'الإجابات',
-                                        child: Column(
-                                          children: [
-                                            CustomReactiveField(
-                                              controlName: '1',
-                                              prefix: InkWell(
-                                                onTap: () {},
-                                                child: const Icon(Icons.circle_outlined),
-                                              ),
-                                            ),
-                                            const SizedBox(
-                                              height: 12,
-                                            ),
-                                            CustomReactiveField(
-                                              controlName: '1',
-                                              prefix: InkWell(
-                                                onTap: () {},
-                                                child: const Icon(Icons.circle_outlined),
-                                              ),
-                                            ),
-                                            const SizedBox(
-                                              height: 12,
-                                            ),
-                                            CustomReactiveField(
-                                              controlName: '1',
-                                              prefix: InkWell(
-                                                onTap: () {},
-                                                child: const Icon(Icons.check_circle),
-                                              ),
-                                            ),
-                                            const SizedBox(
-                                              height: 12,
-                                            ),
-                                            CustomReactiveField(
-                                              controlName: '1',
-                                              prefix: InkWell(
-                                                onTap: () {},
-                                                child: const Icon(Icons.circle_outlined),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              );
-                            },
-                            child: const Text('إضافة اختبار'),
-                          );
-                        },
-                      )
+                      // ReactiveFormConsumer(
+                      //   builder: (BuildContext context, FormGroup formGroup, Widget? child) {
+                      //     return ElevatedButton(
+                      //       onPressed: () {
+                      //         showCustomPopup(
+                      //           context: context,
+                      //           confirmText: 'حفظ',
+                      //           title: 'معلومات السؤال',
+                      //           child: ReactiveForm(
+                      //             formGroup: FormGroup({
+                      //               '1': FormControl(),
+                      //               '2': FormControl(),
+                      //             }),
+                      //             child: Column(
+                      //               children: [
+                      //                 const InputTitle(
+                      //                   text: 'نص السؤال',
+                      //                   child: CustomReactiveField(controlName: '1'),
+                      //                 ),
+                      //                 const InputTitle(
+                      //                   text: 'التلميح',
+                      //                   child: CustomReactiveField(controlName: '1'),
+                      //                 ),
+                      //                 InputTitle(
+                      //                   text: 'الإجابات',
+                      //                   child: Column(
+                      //                     children: [
+                      //                       CustomReactiveField(
+                      //                         controlName: '1',
+                      //                         prefix: InkWell(
+                      //                           onTap: () {},
+                      //                           child: const Icon(Icons.circle_outlined),
+                      //                         ),
+                      //                       ),
+                      //                       const SizedBox(
+                      //                         height: 12,
+                      //                       ),
+                      //                       CustomReactiveField(
+                      //                         controlName: '1',
+                      //                         prefix: InkWell(
+                      //                           onTap: () {},
+                      //                           child: const Icon(Icons.circle_outlined),
+                      //                         ),
+                      //                       ),
+                      //                       const SizedBox(
+                      //                         height: 12,
+                      //                       ),
+                      //                       CustomReactiveField(
+                      //                         controlName: '1',
+                      //                         prefix: InkWell(
+                      //                           onTap: () {},
+                      //                           child: const Icon(Icons.check_circle),
+                      //                         ),
+                      //                       ),
+                      //                       const SizedBox(
+                      //                         height: 12,
+                      //                       ),
+                      //                       CustomReactiveField(
+                      //                         controlName: '1',
+                      //                         prefix: InkWell(
+                      //                           onTap: () {},
+                      //                           child: const Icon(Icons.circle_outlined),
+                      //                         ),
+                      //                       ),
+                      //                     ],
+                      //                   ),
+                      //                 ),
+                      //               ],
+                      //             ),
+                      //           ),
+                      //         );
+                      //       },
+                      //       child: const Text('إضافة اختبار'),
+                      //     );
+                      //   },
+                      // )
                     ],
                   ),
                   const SizedBox(
@@ -134,7 +139,20 @@ class QuizSection extends StatelessWidget {
                         const SizedBox(
                           height: 8,
                         ),
-                        for (int i = 0; i < 10; i++)
+                        if (questions.isEmpty)
+                          const Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              SizedBox(
+                                height: 200,
+                              ),
+                              Text(
+                                'لا يوجد اختبارات بعد في هذه المادة',
+                                style: TextStyle(fontSize: 20),
+                              ),
+                            ],
+                          ),
+                        for (int i = 0; i < questions.length; i++)
                           Theme(
                             data: context.theme.copyWith(dividerColor: AppColors.transparent),
                             child: Padding(
@@ -146,7 +164,8 @@ class QuizSection extends StatelessWidget {
                                     child: Padding(
                                       padding: const EdgeInsets.only(right: 4),
                                       child: Text(
-                                        'تحدث عن البرمجة التفرعية وما هي استراتيجيات الذاكرة فيها تحدث عن البرمجة التفرعية وما هي استراتيجيات الذاكرة فيها تحدث عن البرمجة التفرعية وما هي استراتيجيات الذاكرة فيها تحدث عن البرمجة التفرعية وما هي استراتيجيات الذاكرة فيها',
+                                        questions[i],
+                                        // 'تحدث عن البرمجة التفرعية وما هي استراتيجيات الذاكرة فيها تحدث عن البرمجة التفرعية وما هي استراتيجيات الذاكرة فيها تحدث عن البرمجة التفرعية وما هي استراتيجيات الذاكرة فيها تحدث عن البرمجة التفرعية وما هي استراتيجيات الذاكرة فيها',
                                         style: context.textTheme.titleMedium,
                                       ),
                                     ),

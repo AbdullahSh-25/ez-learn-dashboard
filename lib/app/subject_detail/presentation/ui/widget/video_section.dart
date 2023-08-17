@@ -1,12 +1,20 @@
+import 'package:ez_learn_dashboard/app/subject_detail/presentation/state/bloc/subject_detail_bloc.dart';
+import 'package:ez_learn_dashboard/common/utils/date_time_extension.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'dart:html' as html;
 import '../../../../../common/imports/imports.dart';
 import '../../../../../common/widget/custom_popup.dart';
 import '../../../../../common/widget/custom_reactive_field.dart';
 import '../../../../../common/widget/input_title.dart';
+import '../../../infrastructure/models/subject_detail_model.dart';
 
 class VideosSection extends StatelessWidget {
-  const VideosSection({Key? key}) : super(key: key);
+  final List<VideoModel> videos;
+
+  const VideosSection({
+    Key? key,
+    required this.videos,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,16 +33,17 @@ class VideosSection extends StatelessWidget {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      final form = FormGroup({
-                        'name': FormControl(),
-                        'description': FormControl(),
-                      });
+                      final bloc = context.read<SubjectDetailBloc>();
+
                       showCustomPopup(
                         context: context,
                         title: 'محضارة عملي جديدة',
+                        onConfirm: (){
+                          // bloc.add(AddLecture(subjectId, 2));
+                        },
                         width: context.screenWidth * 0.3,
                         child: ReactiveForm(
-                          formGroup: form,
+                          formGroup: SubjectDetailBloc.videoForm,
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -79,55 +88,70 @@ class VideosSection extends StatelessWidget {
                       children: [
                         Expanded(
                             child: Text(
-                              'عنوان الفيديو',
-                              style: context.textTheme.titleLarge,
-                            )),
+                          'عنوان الفيديو',
+                          style: context.textTheme.titleLarge,
+                        )),
                         Expanded(
                             child: Text(
-                              'مدة الفيديو',
-                              style: context.textTheme.titleLarge,
-                            )),
+                          'مدة الفيديو',
+                          style: context.textTheme.titleLarge,
+                        )),
                         Expanded(
                             child: Text(
-                              'تاريخ الإضافة',
-                              style: context.textTheme.titleLarge,
-                            )),
+                          'تاريخ الإضافة',
+                          style: context.textTheme.titleLarge,
+                        )),
                         Expanded(
                             child: Text(
-                              'الخيارات',
-                              style: context.textTheme.titleLarge,
-                            )),
+                          'الخيارات',
+                          style: context.textTheme.titleLarge,
+                        )),
                       ],
                     ),
                     const SizedBox(
                       height: 8,
                     ),
-                    for (int i = 0; i < 10; i++)
+                    if (videos.isEmpty)
+                      const Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: 200,
+                          ),
+                          Text(
+                            'لا يوجد فيديوهات بعد في هذه المادة',
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        ],
+                      ),
+                    for (int i = 0; i < videos.length; i++)
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8.0),
                         child: Row(
                           children: [
                             Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(right: 4),
-                                  child: Text(
-                                    'Introduction to \'Habed\'ovia',
-                                    style: context.textTheme.titleMedium,
-                                  ),
-                                )),
-                            Expanded(
-                                child: Padding(
-                                  padding: const EdgeInsets.only(right: 4),
-                                  child: Text(
-                                    '1 ساعة و20 دقيقة',
-                                    style: context.textTheme.titleMedium,
-                                  ),
-                                )),
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 4),
+                                child: Text(
+                                  videos[i].videoName,
+                                  style: context.textTheme.titleMedium,
+                                ),
+                              ),
+                            ),
                             Expanded(
                               child: Padding(
                                 padding: const EdgeInsets.only(right: 4),
                                 child: Text(
-                                  '2077-8-30',
+                                  videos[i].duration.convertToTime(),
+                                  style: context.textTheme.titleMedium,
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 4),
+                                child: Text(
+                                  videos[i].dateCreated.toString().date(),
                                   style: context.textTheme.titleMedium,
                                 ),
                               ),
@@ -149,45 +173,45 @@ class VideosSection extends StatelessWidget {
                                     ),
                                     const Spacer(),
                                     OutlinedButton(
-                                        onPressed: () {
-                                          final form = FormGroup({
-                                            'name': FormControl(),
-                                            'description': FormControl(),
-                                          });
-                                          showCustomPopup(
-                                            context: context,
-                                            title: 'محضارة عملي جديدة',
-                                            width: context.screenWidth * 0.3,
-                                            child: ReactiveForm(
-                                              formGroup: form,
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  const InputTitle(text: 'عنوان الفيديو', child: CustomReactiveField(controlName: 'name')),
-                                                  const InputTitle(
-                                                    text: 'مدة الفيديو',
-                                                    child: CustomReactiveField(
-                                                      controlName: 'description',
-                                                      keyboardType: TextInputType.multiline,
-                                                      minLines: 1,
-                                                      maxLines: 20,
-                                                    ),
+                                      onPressed: () {
+                                        final form = FormGroup({
+                                          'name': FormControl(),
+                                          'description': FormControl(),
+                                        });
+                                        showCustomPopup(
+                                          context: context,
+                                          title: 'محضارة عملي جديدة',
+                                          width: context.screenWidth * 0.3,
+                                          child: ReactiveForm(
+                                            formGroup: form,
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                const InputTitle(text: 'عنوان الفيديو', child: CustomReactiveField(controlName: 'name')),
+                                                const InputTitle(
+                                                  text: 'مدة الفيديو',
+                                                  child: CustomReactiveField(
+                                                    controlName: 'description',
+                                                    keyboardType: TextInputType.multiline,
+                                                    minLines: 1,
+                                                    maxLines: 20,
                                                   ),
-                                                  InputTitle(
-                                                    text: 'رابط الفيديو',
-                                                    child: CustomReactiveField(
-                                                      controlName: 'description',
-                                                      readOnly: true,
-                                                      onTap: (v) {
-                                                        v.value = 'test';
-                                                      },
-                                                    ),
+                                                ),
+                                                InputTitle(
+                                                  text: 'رابط الفيديو',
+                                                  child: CustomReactiveField(
+                                                    controlName: 'description',
+                                                    readOnly: true,
+                                                    onTap: (v) {
+                                                      v.value = 'test';
+                                                    },
                                                   ),
-                                                ],
-                                              ),
+                                                ),
+                                              ],
                                             ),
-                                          );
-                                        },
+                                          ),
+                                        );
+                                      },
                                       child: const Text('تعديل'),
                                     ),
                                     const Spacer(),

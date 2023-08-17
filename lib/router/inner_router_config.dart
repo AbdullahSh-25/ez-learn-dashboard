@@ -23,10 +23,10 @@ class InnerRouterConfig {
               title: 'Subjects',
               key: const ValueKey('subjects'),
               child: SubjectsScreen(router: router,)),
-          '/subjects/subject_detail': (context, state, data) => BeamPage(
+          '/subjects/:subjectId': (context, state, data) => BeamPage(
               title: 'Subject Detail',
               key: const ValueKey('subject_detail'),
-              child: SubjectDetailScreen(router: router,)),
+              child: SubjectDetailScreen(router: router,subjectId: state.pathParameters['subjectId']!,)),
           '/marks': (context, state, data) => const BeamPage(
               title: 'Marks',
               key: ValueKey('marks'),

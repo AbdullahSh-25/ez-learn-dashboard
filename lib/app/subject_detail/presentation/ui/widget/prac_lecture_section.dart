@@ -1,13 +1,24 @@
 import 'package:dotted_border/dotted_border.dart';
+import 'package:ez_learn_dashboard/common/utils/date_time_extension.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 import 'dart:html' as html;
 import '../../../../../common/imports/imports.dart';
+import '../../../../../common/utils/converter.dart';
 import '../../../../../common/widget/custom_popup.dart';
 import '../../../../../common/widget/custom_reactive_field.dart';
 import '../../../../../common/widget/input_title.dart';
+import '../../../infrastructure/models/subject_detail_model.dart';
+import '../../state/bloc/subject_detail_bloc.dart';
 
 class PracLectureSection extends StatelessWidget {
-  const PracLectureSection({super.key});
+  final String subjectId;
+  final List<LectureModel> lectures;
+
+  const PracLectureSection({
+    super.key,
+    required this.subjectId,
+    required this.lectures,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -26,16 +37,16 @@ class PracLectureSection extends StatelessWidget {
                   ),
                   ElevatedButton(
                     onPressed: () {
-                      final form = FormGroup({
-                        'name': FormControl(),
-                        'description': FormControl(),
-                      });
+                      final bloc = context.read<SubjectDetailBloc>();
                       showCustomPopup(
                         context: context,
                         title: 'محضارة عملي جديدة',
+                        onConfirm: () {
+                          bloc.add(AddLecture(subjectId, 2));
+                        },
                         width: context.screenWidth * 0.3,
                         child: ReactiveForm(
-                          formGroup: form,
+                          formGroup: SubjectDetailBloc.pracLecForm,
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
                             children: [
@@ -125,7 +136,20 @@ class PracLectureSection extends StatelessWidget {
                     const SizedBox(
                       height: 8,
                     ),
-                    for (int i = 0; i < 10; i++)
+                    if (lectures.isEmpty)
+                      const Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: 200,
+                          ),
+                          Text(
+                            'لا يوجد محاضرات بعد في هذه المادة',
+                            style: TextStyle(fontSize: 20),
+                          ),
+                        ],
+                      ),
+                    for (int i = 0; i < lectures.length; i++)
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8.0),
                         child: Row(
@@ -134,24 +158,25 @@ class PracLectureSection extends StatelessWidget {
                               child: Padding(
                                 padding: const EdgeInsets.only(right: 4),
                                 child: Text(
-                                  'المحاضرة الأولى',
+                                  lectures[i].name,
                                   style: context.textTheme.titleMedium,
                                 ),
                               ),
                             ),
                             Expanded(
-                                child: Padding(
-                              padding: const EdgeInsets.only(right: 4),
-                              child: Text(
-                                '1 ساعة و20 دقيقة تقريبا',
-                                style: context.textTheme.titleMedium,
+                              child: Padding(
+                                padding: const EdgeInsets.only(right: 4),
+                                child: Text(
+                                  lectures[i].expectedPeriod.convertToTime(),
+                                  style: context.textTheme.titleMedium,
+                                ),
                               ),
-                            )),
+                            ),
                             Expanded(
                               child: Padding(
                                 padding: const EdgeInsets.only(right: 4),
                                 child: Text(
-                                  '2077-8-30',
+                                  lectures[i].dateCreated.toString().date(),
                                   style: context.textTheme.titleMedium,
                                 ),
                               ),
@@ -162,7 +187,12 @@ class PracLectureSection extends StatelessWidget {
                                 child: Row(
                                   children: [
                                     ElevatedButton(
-                                      onPressed: () {},
+                                      onPressed: () {
+                                        html.window.open(
+                                            buildDocPath(lectures[i].lectureUrl),
+                                            // 'https://www2.seas.gwu.edu/~dorpjr/EMSE269/Extra%20Problems/Extra%20Problem%206%20-%20Solving%20Decision%20Trees%20-%20Solution%20Key.pdf',
+                                            'New Tab');
+                                      },
                                       style: ElevatedButton.styleFrom(
                                         padding: REdgeInsets.symmetric(horizontal: 8),
                                         side: const BorderSide(color: AppColors.primary),

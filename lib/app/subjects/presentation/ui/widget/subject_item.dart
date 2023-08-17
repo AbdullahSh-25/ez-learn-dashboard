@@ -1,3 +1,5 @@
+import 'package:ez_learn_dashboard/common/utils/converter.dart';
+
 import '../../../../../common/imports/imports.dart';
 
 class SubjectItem extends StatelessWidget {
@@ -103,7 +105,7 @@ class SubjectItem extends StatelessWidget {
                     const RSizedBox(
                       height: 6,
                     ),
-                    const Text('الفصل الأول - السنة الثالتة'),
+                     Text('${yearConverter(year)} - ${semesterConverter(semester)}'),
                   ],
                 ),
               ),
